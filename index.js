@@ -6,6 +6,7 @@ let posts = [
   const user = {
     username: "abc",
     lastactivitytime: new Date().getTime(),
+
   };
   
   function createPost(post) {
@@ -44,7 +45,7 @@ let posts = [
   function updateLastUserActivityTime() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        user.lastactivitytime = new Date().getTime();
+       user.lastactivitytime = new Date().getTime();
         resolve(user.lastactivitytime);
       }, 1000);
     });
@@ -52,8 +53,7 @@ let posts = [
   
   Promise.all([
     createPost({ username: "POST3", body: "This is 3rd Post" }),
-    updateLastUserActivityTime(),
-  ])
+    updateLastUserActivityTime()])
     .then(() => {
       getPost().then(() => {
         deletePost()
