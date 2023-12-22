@@ -5,7 +5,7 @@ let posts = [
   
   const user = {
     username: "abc",
-    lastactivitytime: new Date().getTime(),
+    lastactivitytime: new Date().toISOString(),
 
   };
   
@@ -23,7 +23,7 @@ let posts = [
       setTimeout(() => {
         console.log(`User: ${user.username} , lastActivityTime: ${user.lastactivitytime}`);
         for (let i = 0; i < posts.length; i++) {
-          console.log(posts[i]);
+          console.log(posts[i].username);
         }
         resolve();
       }, 1000);
@@ -34,7 +34,7 @@ let posts = [
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (posts.length !== 0) {
-          resolve(posts.pop());
+          resolve(posts.pop().username);
         } else {
           reject("Array is Empty.");
         }
@@ -45,23 +45,33 @@ let posts = [
   function updateLastUserActivityTime() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-       user.lastactivitytime = new Date().getTime();
+       user.lastactivitytime = new Date().toISOString();
         resolve(user.lastactivitytime);
       }, 1000);
     });
   }
   
-  Promise.all([
-    createPost({ username: "POST3", body: "This is 3rd Post" }),
-    updateLastUserActivityTime()])
-    .then(() => {
-      getPost().then(() => {
-        deletePost()
-          .then(() => {
-            console.log("Remaining Post");
-            getPost();
-          })
-          .catch((err) => console.log(err));
-      });
+  // Promise.all([
+  //   createPost({ username: "POST3", body: "This is 3rd Post" }),
+  //   updateLastUserActivityTime()])
+  //   .then(() => {
+  //     getPost().then(() => {
+  //       deletePost()
+  //         .then(() => {
+  //           console.log("Remaining Post");
+  //           getPost();
+  //         })
+  //         .catch((err) => console.log(err));
+  //     });
+  //   })
+  //   .catch((err) => console.log(err));
+try{
+  Promise.all([createPost({ username: "POST3", body: "This is 3rd Post" }),getPost(), deletePost(), updateLastUserActivityTime()])
+  .then(() => {
+    getPost().then(() => {
+      deletePost()
     })
-    .catch((err) => console.log(err));
+  })
+}catch(err){
+  console.log(err);
+}
